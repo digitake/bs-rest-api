@@ -5,7 +5,7 @@ REST in style, no more pain with the Functor force.
 
 ---
 
-## Version: 1.2.0
+## Version: 1.2.1
 
 ## Dependencies
 This package used `bs-json` for most of `encode/decode` part. It relied on `bs-fetch` as a communication layer. And also uses `bs-promise-monad` for syntatic suger, although it is not required.
@@ -66,7 +66,7 @@ module TodoApi = RestApi.Make(DummyEndpoint, TodoItem)
 
 #### 4. Use the API
 ```reasonml
-open PromoseMonad;
+open PromiseMonad;
 TodoApi.list()
 >>- (result => switch(result) {
     | Ok(items) => Js.log(items)
