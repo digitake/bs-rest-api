@@ -31,7 +31,6 @@ module type API =
         type box = (t, unexpected) result promise
         type listBox = (t list, unexpected) result promise
         type emptyBox = (unit, unexpected) result promise
-        type rawBox = (Fetch.Response.t, unexpected) result promise
 
         type path = string
         
@@ -42,7 +41,7 @@ module type API =
         val patch: path -> t -> box
         val delete: path -> emptyBox
 
-        (* val custom: path -> request *)
+        val fetch: path -> Fetch.RequestInit.t -> (Fetch.Response.t, unexpected) result promise
     end
 
 module type DataModel =
@@ -121,4 +120,13 @@ module Make(E:Endpoint)(D:DataModel):(API with type t = D.t) =
         let patch path (data:t) = perform ~method_:Fetch.Patch ~body:(makeBody data) path >>= extractResult D.decode
 
         let delete path = perform ~method_:Fetch.Delete path >>- (fun box -> map box (fun _ -> ()))
+
+        let fetch path requestInit = 
+            let url = urlWithPath (D.namespace ^ path) in
+            Fetch.fetchWithInit url requestInit
+            >>- (fun resp ->
+                match Fetch.Response.ok resp with
+                | true -> Ok(resp)
+                | false -> let open Fetch.Response in Error((status resp, statusText resp))
+            )
     end
