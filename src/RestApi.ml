@@ -114,7 +114,7 @@ module Make(E:Endpoint)(D:DataModel):(API with type t = D.t) =
         
         let get path = (perform path) >>= extractResult D.decode
 
-        let post (data:t) = perform ~body:(makeBody data) "/" >>= extractResult D.decode
+        let post (data:t) = perform ~method_:Fetch.Post ~body:(makeBody data) "/" >>= extractResult D.decode
 
         let put path (data:t) = perform ~method_:Fetch.Put ~body:(makeBody data) path >>= extractResult D.decode
 
