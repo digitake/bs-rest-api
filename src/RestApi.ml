@@ -25,10 +25,15 @@ module type Header =
 module type API =
     sig
         type t  (** t is corresponding to API Data Model *)
-        type box
-        type listBox
-        type emptyBox
-        type path
+        type unexpected = (int * string)
+        type 'a promise = 'a PromiseMonad.promise
+
+        type box = (t, unexpected) result promise
+        type listBox = (t list, unexpected) result promise
+        type emptyBox = (unit, unexpected) result promise
+        type rawBox = (Fetch.Response.t, unexpected) result promise
+
+        type path = string
         
         val list: unit -> listBox
         val get: path -> box
@@ -57,7 +62,7 @@ module Make(Broker:module type of Endpoint)(D:DataModel):API =
         open PromiseMonad
         open Belt.Result
         include Broker
-
+        type 'a promise = 'a PromiseMonad.promise
         type unexpected = (int * string)
 
         type t = D.t
