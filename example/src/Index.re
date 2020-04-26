@@ -34,7 +34,14 @@ let addItem = () => {
         title: "this is a test data 1234",
         completed: false
     }
+    
     TodoApi.post(item)
+    >>- (result => switch(result) {
+        | Ok(item) => TodoItem.string(item)
+        | Error((code, status)) => "<h2>"++string_of_int(code)++":"++status++"</h2>"
+        }
+        |> innerHTML(container)
+    )
 }
 
 document->getElementById("todo-add")->setOnclick(addItem)
