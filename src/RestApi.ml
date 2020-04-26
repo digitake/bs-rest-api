@@ -119,7 +119,7 @@ module Make(E:Endpoint)(D:DataModel):(API with type t = D.t) =
 
         let patch path (data:t) = perform ~method_:Fetch.Patch ~body:(makeBody data) path >>= extractResult D.decode
 
-        let delete path = perform ~method_:Fetch.Delete path >>- (fun box -> map box (fun _ -> ()))
+        let delete path = perform ~method_:Fetch.Delete path >>- (fun box -> map box ignore)
 
         let fetch path requestInit = 
             let url = urlWithPath (D.namespace ^ path) in
