@@ -29,7 +29,7 @@ TodoApi.list()
 /** This is how to post */
 let addItem = () => {
     let item:TodoItem.t={
-        id: -1,
+        id: -1,  /** you can define id as option type if you don't like this -1 magic */
         userId: 1,
         title: "this is a test data 1234",
         completed: false
