@@ -1,0 +1,23 @@
+{
+  "name": "@digitake/bs-rest-api-example",
+  
+  "sources": [{
+      "dir": "src",
+      "subdirs": true
+  }],
+  "package-specs": [
+  {
+    "module": "es6",
+    "in-source": false
+  }],
+  "suffix": ".bs.js",
+  "bs-dependencies": [
+    "@digitake/bs-rest-api",
+    "@glennsl/bs-json",
+    "bs-promise-monad"
+  ],
+  "warnings": {
+    "error": "+101"
+  },
+  "refmt": 3
+}
