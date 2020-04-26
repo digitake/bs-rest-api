@@ -130,6 +130,8 @@ TodoAPIWithHeader.get("1")
 
 ### TODO
 - Implement npm publish action
-- Implement Headers Installer
+- Improve Module Type Interface(Try to reduce types exposure)
+- Implement interactive demo to pull API
+- Implement API DataModel Generator(start with django-rest-framework)
 
 PRs are welcome. Comments or Requests are also welcome. Thank you.
