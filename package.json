@@ -1,0 +1,33 @@
+{
+  "name": "@digitake/bs-rest-api",
+  "version": "1.0.0",
+  "description": "BuckleScript REST API Builder",
+  "main": "index.js",
+  "scripts": {
+    "build": "bsb -make-world",
+    "start": "bsb -make-world -w",
+    "clean": "bsb -clean-world",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "BuckleScript",
+    "ReasonML",
+    "JavaScript",
+    "REST",
+    "Web",
+    "browser"
+  ],
+  "author": "“digitake” <“digitake@gmail.com”>",
+  "license": "MIT",
+  "dependencies": {
+    "@glennsl/bs-json": "^5.0.2",
+    "bs-fetch": "^0.5.2",
+    "bs-promise-monad": "^0.4.3"
+  },
+  "peerDependencies": {
+    "bs-platform": "^7.3.1"
+  },
+  "devDependencies": {
+    "bs-platform": "^7.3.1"
+  }
+}

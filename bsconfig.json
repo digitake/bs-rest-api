@@ -1,0 +1,27 @@
+{
+  "name": "bs-rest-api",
+  
+  "sources": [{
+      "dir": "src",
+      "public": ["RestApi"],
+      "subdirs": true
+  },
+  {
+    "dir": "example",
+    "type": "dev"
+  }],
+  "package-specs": {
+    "module": "commonjs",
+    "in-source": true
+  },
+  "suffix": ".bs.js",
+  "bs-dependencies": [
+    "bs-fetch",
+    "bs-promise-monad",
+    "@glennsl/bs-json",
+  ],
+  "warnings": {
+    "error": "+101"
+  },
+  "refmt": 3
+}

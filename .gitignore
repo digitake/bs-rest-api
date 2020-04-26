@@ -1,13 +1,9 @@
-*.annot
-*.cmo
-*.cma
-*.cmi
-*.a
-*.o
-*.cmx
-*.cmxs
-*.cmxa
-
+.DS_Store
+.merlin
+.bsb.lock
+npm-debug.log
+/lib/bs/
+/node_modules/
 # ocamlbuild working directory
 _build/
 
@@ -27,3 +23,7 @@ setup.log
 
 # Local OPAM switch
 _opam/
+
+.vscode/
+
+*.bs.js
