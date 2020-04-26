@@ -66,7 +66,7 @@ module type Endpoint =
         val urlWithPath: string -> string
     end
 
-module Make(E:Endpoint)(D:DataModel):API = 
+module Make(E:Endpoint)(D:DataModel):(API with type t = D.t) = 
     struct
         open PromiseMonad
         open Belt.Result
