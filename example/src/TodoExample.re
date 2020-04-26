@@ -51,7 +51,6 @@ module TodoAPI = Make(DummyEndpoint, TodoItem)
 module TokenHeader = {
   open Fetch;
   let makeHeaders = () =>{
-    Js.log("Yes, there is a call");
     HeadersInit.make({ 
       "Content-Type": "application/json",
       "Authorization": "Bearer token-this-here"

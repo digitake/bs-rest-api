@@ -93,9 +93,31 @@ TodoAPI.post({
 );
 ```
 
+#### Extra - Use it with custom request header suah as Token?
+```reasonml
+module TokenHeader = {
+  let makeHeaders () => HeadersInit.make({ 
+      "Content-Type": "application/json",
+      "Authorization": "token-this-here you can pull it with your custom logic."
+    })
+}
+
+module TodoAPIWithHeader = MakeWithHeader(DummyEndpoint, TodoItem, TokenHeader)
+
+TodoAPIWithHeader.get("1")
+>>- (result => switch(result) {
+    | Ok(item) => Js.log(item)
+    | Error((code, status)) => Js.log2(code, status)
+    }
+);
+```
+
 ### Changes
 
 #### 1.3.0
+- Add MakeWithHeader
+- Rename module name to be more consistent
+- Remove unused module.
 
 #### 1.2.0
 - Publish to npm
