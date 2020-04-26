@@ -1,15 +1,3 @@
-(** expected return type *)
-(* type expected *)
+(** Define the baseUrl of the endpoint *)
 
-(** unexpected type *)
-(* type unexpected *)
-
-(** unexpected type *)
-(* type box *)
-
-(* val perform: 
-    ?method_:Fetch.requestMethod ->
-    ?headers:Fetch.headersInit ->
-    ?body:Fetch.bodyInit ->
-    string -> box *)
-
+(* val baseUrl: string *)

@@ -1,4 +1,4 @@
-module Endpoint = RestApi_endpoint
+
 
 (** 
 This Broker module represent the lowest connecting point to the outer world.
@@ -26,7 +26,7 @@ module type API =
     sig
         type t  (** t is corresponding to API Data Model *)
         type unexpected = (int * string)
-        type 'a promise = 'a PromiseMonad.promise
+        type 'a promise = 'a Js.Promise.t
 
         type box = (t, unexpected) result promise
         type listBox = (t list, unexpected) result promise
@@ -57,12 +57,21 @@ module type DataModel =
         val encode: t -> Js.Json.t
     end
 
-module Make(Broker:module type of Endpoint)(D:DataModel):API = 
+module type Endpoint =
+    sig
+        (** Base URL for the target Endpoint*)
+        val baseUrl: string
+
+        (** Build url path *)
+        val urlWithPath: string -> string
+    end
+
+module Make(E:Endpoint)(D:DataModel):API = 
     struct
         open PromiseMonad
         open Belt.Result
-        include Broker
-        type 'a promise = 'a PromiseMonad.promise
+        include E
+        type 'a promise = 'a Js.Promise.t
         type unexpected = (int * string)
 
         type t = D.t
@@ -79,12 +88,13 @@ module Make(Broker:module type of Endpoint)(D:DataModel):API =
             
         (** Low-level request with bare url, this will return Error if Fetch.Respose status is not ok *)
         let perform 
-            ?method_:(method_: Fetch.requestMethod option) 
-            ?headers:(headers: Fetch.headersInit option) 
-            ?body:(body: Fetch.bodyInit option) 
+            ?method_ 
+            ?(headers = makeHeaders())  (** Default to makeHeaders, which can be replaced *)
+            ?body
             path: rawBox = 
-            let requestInit = Fetch.RequestInit.make ~method_:Fetch.Post () in
-            Fetch.fetchWithInit path requestInit
+            let requestInit = Fetch.RequestInit.make ?method_ ~headers ?body () in
+            let url = urlWithPath (D.namespace ^ path) in
+            Fetch.fetchWithInit url requestInit
             >>- (fun resp ->
                 match Fetch.Response.ok resp with (** Check if the response is ok *)
                 | true -> Ok(resp)
