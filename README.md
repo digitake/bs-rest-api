@@ -61,27 +61,27 @@ module DummyEndpoint: RestApi.Endpoint = {
 
 #### 3. Build the API
 ```reasonml
-module TodoApi = RestApi.Make(DummyEndpoint, TodoItem)
+module TodoAPI = RestApi.Make(DummyEndpoint, TodoItem)
 ```
 
 #### 4. Use the API
 ```reasonml
 open PromiseMonad;
-TodoApi.list()
+TodoAPI.list()
 >>- (result => switch(result) {
     | Ok(items) => Js.log(items)
     | Error((code, status)) => Js.log2(code, status)
     }
 );
 
-TodoApi.get("1")
+TodoAPI.get("1")
 >>- (result => switch(result) {
     | Ok(item) => Js.log(item)
     | Error((code, status)) => Js.log2(code, status)
     }
 );
     
-TodoApi.post({
+TodoAPI.post({
         id: -1,
         userId: 1,
         title: "Easy API with free type power",
@@ -94,6 +94,8 @@ TodoApi.post({
 ```
 
 ### Changes
+
+#### 1.3.0
 
 #### 1.2.0
 - Publish to npm

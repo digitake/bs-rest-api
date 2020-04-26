@@ -1,24 +1,8 @@
 
-
-(** 
-This Broker module represent the lowest connecting point to the outer world.
-Observe that Endpoint.request is an abstract type and can be implement with any underlying
-connection layer. In this case, it use Fetch.Request as default request.
-
-The Endpoint.box represent a container in which the result of request is returned.
-This box is high level abstraction of anything that return from the request.
-For the result that is async in nature, we implement is as a promise of result.
-*)
-(* module type Broker =
-    sig
-        val perform: Endpoint.request -> Endpoint.box
-    end *)
-
 (** The Header module type represent a module sig that envelop makeHeaders function. *)
 module type Header =
     sig
-        type t
-        val makeHeaders: unit -> t
+        val makeHeaders: unit -> Fetch.HeadersInit.t
     end
 
 (** This is a shape of finished module *)
@@ -65,11 +49,13 @@ module type Endpoint =
         val urlWithPath: string -> string
     end
 
-module Make(E:Endpoint)(D:DataModel):(API with type t = D.t) = 
+module MakeWithHeader(E:Endpoint)(D:DataModel)(H:Header):(API with type t = D.t) = 
     struct
         open PromiseMonad
         open Belt.Result
         include E
+        include H
+
         type 'a promise = 'a Js.Promise.t
         type unexpected = (int * string)
 
@@ -82,8 +68,6 @@ module Make(E:Endpoint)(D:DataModel):(API with type t = D.t) =
         type rawBox = (Fetch.Response.t, unexpected) result promise
 
         let makeBody data = Fetch.BodyInit.make (data |> D.encode |> Js.Json.stringify)
-        let makeHeaders () = Fetch.HeadersInit.makeWithDict (Js.Dict.fromList [
-                     ("Content-Type", "application/json")])
             
         (** Low-level request with bare url, this will return Error if Fetch.Respose status is not ok *)
         let perform 
@@ -91,6 +75,7 @@ module Make(E:Endpoint)(D:DataModel):(API with type t = D.t) =
             ?(headers = makeHeaders())  (** Default to makeHeaders, which can be replaced *)
             ?body
             path: rawBox = 
+            let _ = Js.log "test perform3" in
             let requestInit = Fetch.RequestInit.make ?method_ ~headers ?body () in
             let url = urlWithPath (D.namespace ^ path) in
             Fetch.fetchWithInit url requestInit
@@ -129,4 +114,16 @@ module Make(E:Endpoint)(D:DataModel):(API with type t = D.t) =
                 | true -> Ok(resp)
                 | false -> let open Fetch.Response in Error((status resp, statusText resp))
             )
+    end
+
+module Make(E:Endpoint)(D:DataModel):(API with type t = D.t) =
+    struct
+        module HeaderDefault =
+            struct
+            let makeHeaders () = Fetch.HeadersInit.makeWithDict (Js.Dict.fromList [
+                     ("Content-Type", "application/jsossn");
+            ])
+            end
+        
+        include MakeWithHeader(E)(D)(HeaderDefault)
     end

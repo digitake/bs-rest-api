@@ -12,7 +12,7 @@ type document;
 let container = document->getElementById("todos-container");
 
 /** This is how to use the api */
-TodoApi.list()
+TodoAPI.list()
 >>- (result => switch(result) {
     | Ok(items) =>{
         items 
@@ -35,7 +35,7 @@ let addItem = () => {
         completed: false
     }
     
-    TodoApi.post(item)
+    TodoAPIWithHeader.post(item)
     >>- (result => switch(result) {
         | Ok(item) => TodoItem.string(item)
         | Error((code, status)) => "<h2>"++string_of_int(code)++":"++status++"</h2>"

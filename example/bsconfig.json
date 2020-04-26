@@ -14,7 +14,8 @@
   "bs-dependencies": [
     "@digitake/bs-rest-api",
     "@glennsl/bs-json",
-    "bs-promise-monad"
+    "bs-promise-monad",
+    "bs-fetch"
   ],
   "warnings": {
     "error": "+101"

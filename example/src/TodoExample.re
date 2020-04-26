@@ -45,4 +45,18 @@ module DummyEndpoint: RestApi.Endpoint = {
   let urlWithPath = path => [|baseUrl, path|] |> Js.Array.joinWith("/")
 }
 
-module TodoApi = Make(DummyEndpoint, TodoItem)
+module TodoAPI = Make(DummyEndpoint, TodoItem)
+
+
+module TokenHeader = {
+  open Fetch;
+  let makeHeaders = () =>{
+    Js.log("Yes, there is a call");
+    HeadersInit.make({ 
+      "Content-Type": "application/json",
+      "Authorization": "Bearer token-this-here"
+    })
+  }
+}
+
+module TodoAPIWithHeader = MakeWithHeader(DummyEndpoint, TodoItem, TokenHeader)
