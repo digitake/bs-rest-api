@@ -31,8 +31,11 @@ module ItemModel : DataModel = {
 }
 
 
-module Endpoint = {
+module DummyEndpoint: RestApi.Endpoint = {
+  
+  let baseUrl = "https://jsonplaceholder.typicode.com"
 
+  let urlWithPath = path => [|baseUrl, path|] |> Js.Array.joinWith("/")
 }
 
-module TodoApi = Make(Endpoint, ItemModel)
+module TodoApi = Make(DummyEndpoint, ItemModel)
