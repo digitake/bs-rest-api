@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "BuckleScript REST API Builder",
   "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/digitake/bs-rest-api.git"
+  },
   "scripts": {
     "build": "bsb -make-world",
     "start": "bsb -make-world -w",
