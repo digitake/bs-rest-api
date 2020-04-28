@@ -4,7 +4,7 @@
 REST in style, no more pain with the Functor force.
 
 ---
-
+[![Package Quality](https://npm.packagequality.com/badge/@digitake%2Fbs-rest-api.png)](https://packagequality.com/#?package=@digitake%2Fbs-rest-api)
 ## Version: 1.3.1
 
 ## Dependencies
