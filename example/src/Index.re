@@ -42,6 +42,30 @@ let addItem = () => {
         }
         |> innerHTML(container)
     )
-}
+};
+
+/** For custom path, it will fall back to Fetch.Request and Fetch.Response*/
+let customRequest = Fetch.RequestInit.make(
+    ~method_=Fetch.Post, 
+    ~headers=Fetch.HeadersInit.make({ 
+    "Content-Type": "application/json",
+    }), 
+    ~body=Fetch.BodyInit.make({|
+    {
+      "postId": 1,
+      "name": "Test comment",
+      "email": "Nikita@garfield.biz",
+      "body": "hello from bs-rest-api"
+    }
+    |}),
+    ()
+);
+
+TodoAPIWithHeader.fetch("posts/1/comments", customRequest)
+    >>- (result => switch(result) {
+        | Ok(rawResponse) => rawResponse->Fetch.Response.text>>-(d => innerHTML(container,d))
+        | Error((code, status)) => "<h2>"++string_of_int(code)++":"++status++"</h2>"|> innerHTML(container)|>return
+        }
+    )
 
 document->getElementById("todo-add")->setOnclick(addItem)

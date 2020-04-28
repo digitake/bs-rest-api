@@ -5,7 +5,7 @@ REST in style, no more pain with the Functor force.
 
 ---
 
-## Version: 1.2.1
+## Version: 1.3.1
 
 ## Dependencies
 This package used `bs-json` for most of `encode/decode` part. It relied on `bs-fetch` as a communication layer. And also uses `bs-promise-monad` for syntatic suger, although it is not required.
@@ -54,7 +54,7 @@ module DummyEndpoint: RestApi.Endpoint = {
   /** 2.1 Define base url */
   let baseUrl = "https://jsonplaceholder.typicode.com"
 
-  /** 2.1 Define a urlWithPath function */
+  /** 2.2 Define a urlWithPath function */
   let urlWithPath = path => [|baseUrl, path|] |> Js.Array.joinWith("/")
 }
 ```
@@ -91,6 +91,30 @@ TodoAPI.post({
     | Error((code, status)) => Js.log2(code, status)
     }
 );
+
+/** For custom path, it will fall back to Fetch.Request and Fetch.Response*/
+let customRequest = Fetch.RequestInit.make(
+    ~method_=Fetch.Post, 
+    ~headers=Fetch.HeadersInit.make({ 
+    "Content-Type": "application/json",
+    }), 
+    ~body=Fetch.BodyInit.make({|
+    {
+      "postId": 1,
+      "name": "Test comment",
+      "email": "Nikita@garfield.biz",
+      "body": "hello from bs-rest-api"
+    }
+    |}),
+    ()
+);
+
+TodoAPIWithHeader.fetch("posts/1/comments", customRequest)
+    >>- (result => switch(result) {
+        | Ok(rawResponse) => rawResponse->Fetch.Response.text|> innerHTML(container)
+        | Error((code, status)) => "<h2>"++string_of_int(code)++":"++status++"</h2>"|> innerHTML(container)
+        }
+    )
 ```
 
 #### Extra - Use it with custom request header suah as Token?
