@@ -1,0 +1,30 @@
+name: npm-publish
+on:
+  push:
+    branches:
+      - release
+jobs:
+  npm-publish:
+    name: npm-publish
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v2
+    - name: Set up Node.js
+      uses: actions/setup-node@v1
+      with:
+        node-version: 10.0.0
+    - name: npm install and npm test
+      run: |
+        npm install
+        npm run setup-test
+        npm run clean
+        npm run build
+        npm run ci-test
+    - name: npm publish
+      run: |
+        npm config set //registry.npmjs.org/:_authToken=$NODE_AUTH_TOKEN
+        npm publish || true
+      env:
+        CI: true
+        NODE_AUTH_TOKEN: ${{ secrets.NPM_AUTH_TOKEN }}

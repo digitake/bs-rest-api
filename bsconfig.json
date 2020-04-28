@@ -4,8 +4,14 @@
       "dir": "src",
       "public": ["RestApi"],
       "subdirs": true
+  },
+  {
+    "dir": "__tests__",
+    "type": "dev"
   }],
-  "package-specs": [
+  "package-specs": [{
+    "module": "commonjs"
+  },
   {
     "module": "es6",
     "in-source": false
@@ -15,6 +21,9 @@
     "bs-fetch",
     "bs-promise-monad",
     "@glennsl/bs-json"
+  ],
+  "bs-dev-dependencies": [
+    "@glennsl/bs-jest"
   ],
   "warnings": {
     "error": "+101"
