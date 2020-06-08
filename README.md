@@ -5,7 +5,7 @@ REST in style, no more pain with the Functor force.
 
 ---
 [![Package Quality](https://npm.packagequality.com/badge/@digitake%2Fbs-rest-api.png)](https://packagequality.com/#?package=@digitake%2Fbs-rest-api)
-## Version: 1.3.1
+## Version: 1.3.2
 
 ## Dependencies
 This package used `bs-json` for most of `encode/decode` part. It relied on `bs-fetch` as a communication layer. And also uses `bs-promise-monad` for syntatic suger, although it is not required.
@@ -137,6 +137,9 @@ TodoAPIWithHeader.get("1")
 ```
 
 ### Changes
+
+#### 1.3.2
+- Fix a securrity issue from PR #1
 
 #### 1.3.0
 - Add MakeWithHeader

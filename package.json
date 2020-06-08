@@ -1,6 +1,6 @@
 {
   "name": "@digitake/bs-rest-api",
-  "version": "1.3.1",
+  "version": "1.3.2",
   "description": "BuckleScript REST API Builder",
   "main": "index.js",
   "repository": {
@@ -40,5 +40,6 @@
   "files": [
     "src/",
     "bsconfig.json"
-  ]
+  ],
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
 }
