@@ -139,7 +139,9 @@ TodoAPIWithHeader.get("1")
 ### Changes
 
 #### 1.3.2
-- Fix a securrity issue from PR #1
+
+- Patch security on dependencies
+- Fix a security issue from PR #1
 
 #### 1.3.0
 - Add MakeWithHeader
