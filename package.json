@@ -40,5 +40,6 @@
   "files": [
     "src/",
     "bsconfig.json"
-  ]
+  ],
+  "publishConfig": { "registry": "https://npm.pkg.github.com/" }
 }
