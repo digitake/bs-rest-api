@@ -14,7 +14,7 @@ This package used `bs-json` for most of `encode/decode` part. It relied on `bs-f
 ## How to use?
 
 #### 1. Define the module
-```reasonml
+```reason
 module TodoItem = {
   /** 1.1 Define data model */
   type t = {
@@ -49,7 +49,7 @@ module TodoItem = {
 ```
 
 #### 2. Define the Endpoint
-```reasonml
+```reason
 module DummyEndpoint: RestApi.Endpoint = {
   /** 2.1 Define base url */
   let baseUrl = "https://jsonplaceholder.typicode.com"
@@ -60,12 +60,12 @@ module DummyEndpoint: RestApi.Endpoint = {
 ```
 
 #### 3. Build the API
-```reasonml
+```reason
 module TodoAPI = RestApi.Make(DummyEndpoint, TodoItem)
 ```
 
 #### 4. Use the API
-```reasonml
+```reason
 open PromiseMonad;
 TodoAPI.list()
 >>- (result => switch(result) {
@@ -118,7 +118,7 @@ TodoAPIWithHeader.fetch("posts/1/comments", customRequest)
 ```
 
 #### Extra - Use it with custom request header suah as Token?
-```reasonml
+```reason
 module TokenHeader = {
   let makeHeaders () => HeadersInit.make({ 
       "Content-Type": "application/json",
